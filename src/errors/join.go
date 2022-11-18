@@ -10,7 +10,10 @@ package errors
 // The error formats as the concatenation of the strings obtained
 // by calling the Error method of each element of errs, with a newline
 // between each string.
+// JOINができるようになってる！！！！！
 func Join(errs ...error) error {
+	// len(errs)じゃダメなんか？ by Miki
+	// return err とかをJOINしたもののうち、nilのものは除きたいんやな by Hikari
 	n := 0
 	for _, err := range errs {
 		if err != nil {
@@ -21,8 +24,9 @@ func Join(errs ...error) error {
 		return nil
 	}
 	e := &joinError{
-		errs: make([]error, 0, n),
+		errs: make([]error, 0, n), // 一旦これしたいんだね by Miki
 	}
+	// 2回ループ回してでもサイズ固定した方がええんやなやっぱ(nが大きいとそうなる？)　いや違うか。キャパシティを正確にしたいからか by Hikari
 	for _, err := range errs {
 		if err != nil {
 			e.errs = append(e.errs, err)
@@ -38,6 +42,7 @@ type joinError struct {
 func (e *joinError) Error() string {
 	var b []byte
 	for i, err := range e.errs {
+		// 一個だったら改行したくないとかそういう感じか
 		if i > 0 {
 			b = append(b, '\n')
 		}
