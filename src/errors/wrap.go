@@ -96,6 +96,7 @@ func As(err error, target any) bool {
 	if target == nil {
 		panic("errors: target cannot be nil")
 	}
+	// やばいreflectちゃんとわかってないと何やってるかわからんぞ by Miki
 	val := reflectlite.ValueOf(target)
 	typ := val.Type()
 	if typ.Kind() != reflectlite.Ptr || val.IsNil() {
@@ -113,6 +114,7 @@ func As(err error, target any) bool {
 		if x, ok := err.(interface{ As(any) bool }); ok && x.As(target) {
 			return true
 		}
+		// Unwrapしながらerr剥がしていくのね by Miki
 		switch x := err.(type) {
 		case interface{ Unwrap() error }:
 			err = x.Unwrap()

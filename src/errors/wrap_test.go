@@ -24,12 +24,13 @@ func TestIs(t *testing.T) {
 		return err == err1 || err == err3
 	}}
 
+	//　このテストの書き方いいかも
 	testCases := []struct {
 		err    error
 		target error
 		match  bool
 	}{
-		{nil, nil, true},
+		{nil, nil, true}, // これってtrueなんですね
 		{err1, nil, false},
 		{err1, err1, true},
 		{erra, err1, true},
@@ -48,7 +49,7 @@ func TestIs(t *testing.T) {
 		{errorUncomparable{}, err1, false},
 		{&errorUncomparable{}, err1, false},
 		{multiErr{}, err1, false},
-		{multiErr{err1, err3}, err1, true},
+		{multiErr{err1, err3}, err1, true}, // こんな機能が by Tokuda
 		{multiErr{err3, err1}, err1, true},
 		{multiErr{err1, err3}, errors.New("x"), false},
 		{multiErr{err3, errb}, errb, true},
@@ -96,9 +97,10 @@ func TestAs(t *testing.T) {
 	var errP *fs.PathError
 	var timeout interface{ Timeout() bool }
 	var p *poser
-	_, errF := os.Open("non-existing")
+	_, errF := os.Open("non-existing") // File descriptorがTimeoutを実装しているからこれを使ってる
 	poserErr := &poser{"oh no", nil}
 
+	// ちょっと読みにくいなこうなると
 	testCases := []struct {
 		err    error
 		target any
@@ -208,7 +210,7 @@ func TestAs(t *testing.T) {
 			if !match {
 				return
 			}
-			if got := rtarget.Elem().Interface(); got != tc.want {
+			if got := rtarget.Elem().Interface(); got != tc.want { // 何してんのん？？　by Miki
 				t.Fatalf("got %#v, want %#v", got, tc.want)
 			}
 		})
