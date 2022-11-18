@@ -97,7 +97,7 @@ func TestAs(t *testing.T) {
 	var errP *fs.PathError
 	var timeout interface{ Timeout() bool }
 	var p *poser
-	_, errF := os.Open("non-existing") // File descriptorがTimeoutを実装しているからこれを使ってる
+	_, errF := os.Open("non-existing") // Openの返すエラーがTimeoutを実装しているからこれを使ってる
 	poserErr := &poser{"oh no", nil}
 
 	// ちょっと読みにくいなこうなると
