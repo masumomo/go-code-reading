@@ -72,6 +72,7 @@ func Drivers() []string {
 	return list
 }
 
+// Sentences are separated by 66 characters. This is a consideration peculiar to open source. (Personally, I prefer period separators...😅) @t-ash0410
 // A NamedArg is a named argument. NamedArg values may be used as
 // arguments to Query or Exec and bind to the corresponding named
 // parameter in the SQL statement.
@@ -79,6 +80,7 @@ func Drivers() []string {
 // For a more concise way to create NamedArg values, see
 // the Named function.
 type NamedArg struct {
+	// What is this? 🤔 @t-ash0410
 	_NamedFieldsRequired struct{}
 
 	// Name is the name of the parameter placeholder.
@@ -1517,7 +1519,7 @@ func (db *DB) putConnDBLocked(dc *driverConn, err error) bool {
 			err:  err,
 		}
 		return true
-	} else if err == nil && !db.closed {
+	} else if err == nil && !db.closed { // `!db.closed` Can it be false?🫠
 		if db.maxIdleConnsLocked() > len(db.freeConn) {
 			db.freeConn = append(db.freeConn, dc)
 			db.startCleanerLocked()

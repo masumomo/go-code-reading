@@ -209,7 +209,7 @@ type ExecerContext interface {
 //
 // Deprecated: Drivers should implement QueryerContext instead.
 type Queryer interface {
-	Query(query string, args []Value) (Rows, error)
+	Query(query string, args []Value) (Rows, error) // contextなしで使うことある？と、思ったらfakedbはpanic返しとるな
 }
 
 // QueryerContext is an optional interface that may be implemented by a Conn.
@@ -543,6 +543,7 @@ type noRows struct{}
 
 var _ Result = noRows{}
 
+// Like object-oriented
 func (noRows) LastInsertId() (int64, error) {
 	return 0, errors.New("no LastInsertId available after DDL statement")
 }

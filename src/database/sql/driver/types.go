@@ -60,6 +60,8 @@ var _ ValueConverter = boolType{}
 
 func (boolType) String() string { return "Bool" }
 
+// 文字列にできるやつだったら"1", "t", "T", "true", "TRUE", "True"で
+// 数値にできる子だったら1だったらTrulyなのか、意外と地味　@masumomo
 func (boolType) ConvertValue(src any) (Value, error) {
 	switch s := src.(type) {
 	case bool:

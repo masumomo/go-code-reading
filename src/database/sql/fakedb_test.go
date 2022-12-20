@@ -184,6 +184,8 @@ type boundCol struct {
 	Ordinal     int
 }
 
+// fakeだけど割と真面目に実装されていた、そうかsql_testでガッツリ使ってるのか
+// 普通のsql driverとどこまで実装が違うのか気になる
 type fakeStmt struct {
 	memToucher
 	c *fakeConn
@@ -210,7 +212,7 @@ type fakeStmt struct {
 
 var fdriver driver.Driver = &fakeDriver{}
 
-func init() {
+func init() { // でたinit @masumomo
 	Register("test", fdriver)
 }
 
@@ -227,7 +229,7 @@ type Dummy struct {
 	driver.Driver
 }
 
-func TestDrivers(t *testing.T) {
+func TestDrivers(t *testing.T) { // このfakedb.goに書かれている唯一のテスト、なんかあんまりここで書く理由があんまりわからない、、、
 	unregisterAllDrivers()
 	Register("test", fdriver)
 	Register("invalid", Dummy{})
